@@ -1,0 +1,36 @@
+apply plugin: 'com.github.maiflai.scalatest'
+
+def scalaVersion = "2.11"
+def sparkVersion = "2.0.1"
+def jUnitVersion = "4.12"
+def javaVersion  = "1.7"
+
+apply plugin: 'scala'
+dependencies {
+  compileOnly "org.scala-lang:scala-library:${scalaVersion}"
+  compileOnly "org.apache.spark:spark-core_${scalaVersion}:${sparkVersion}"
+  compileOnly "org.apache.spark:spark-sql_${scalaVersion}:${sparkVersion}"
+  testCompile "org.scala-lang:scala-library:${scalaVersion}"
+  testCompile "org.apache.spark:spark-core_${scalaVersion}:${sparkVersion}"
+  testCompile "org.apache.spark:spark-sql_${scalaVersion}:${sparkVersion}"
+  testCompile "org.scalatest:scalatest_${scalaVersion}:3.0.0"
+  testCompile "com.holdenkarau:spark-testing-base_${scalaVersion}:${sparkVersion}_0.6.0"
+  testCompile "org.apache.spark:spark-hive_${scalaVersion}:${sparkVersion}"
+  testRuntime 'org.pegdown:pegdown:1.6.0'
+}
+test {
+  testLogging.showStandardStreams = true
+  beforeTest { descriptor ->
+     logger.lifecycle("Running test: " + descriptor)
+  }
+  environment "SPARK_LOCAL_IP", "127.0.0.1"
+}
+sourceCompatibility = "${javaVersion}"
+targetCompatibility = "${javaVersion}"
+group = "com.zaebst.spark"
+version = "0.1"
+
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '3.3'
+}
