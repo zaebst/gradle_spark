@@ -5,7 +5,13 @@ def sparkVersion = "2.0.1"
 def jUnitVersion = "4.12"
 def javaVersion  = "1.7"
 
+sourceCompatibility = "${javaVersion}"
+targetCompatibility = "${javaVersion}"
+
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
 apply plugin: 'scala'
+
 dependencies {
   compileOnly "org.scala-lang:scala-library:${scalaVersion}"
   compileOnly "org.apache.spark:spark-core_${scalaVersion}:${sparkVersion}"
@@ -18,6 +24,7 @@ dependencies {
   testCompile "org.apache.spark:spark-hive_${scalaVersion}:${sparkVersion}"
   testRuntime 'org.pegdown:pegdown:1.6.0'
 }
+
 test {
   testLogging.showStandardStreams = true
   beforeTest { descriptor ->
@@ -25,12 +32,9 @@ test {
   }
   environment "SPARK_LOCAL_IP", "127.0.0.1"
 }
-sourceCompatibility = "${javaVersion}"
-targetCompatibility = "${javaVersion}"
+
+shadowJar {
+}
+
 group = "com.zaebst.spark"
 version = "0.1"
-
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '3.3'
-}
