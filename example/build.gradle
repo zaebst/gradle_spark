@@ -12,13 +12,15 @@ apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'java'
 apply plugin: 'scala'
 
+configurations {
+    testImplementation.extendsFrom compileOnly
+}
+
 dependencies {
   compileOnly "org.scala-lang:scala-library:${scalaVersion}"
   compileOnly "org.apache.spark:spark-core_${scalaVersion}:${sparkVersion}"
   compileOnly "org.apache.spark:spark-sql_${scalaVersion}:${sparkVersion}"
-  testCompile "org.scala-lang:scala-library:${scalaVersion}"
-  testCompile "org.apache.spark:spark-core_${scalaVersion}:${sparkVersion}"
-  testCompile "org.apache.spark:spark-sql_${scalaVersion}:${sparkVersion}"
+
   testCompile "org.scalatest:scalatest_${scalaVersion}:3.0.0"
   testCompile "com.holdenkarau:spark-testing-base_${scalaVersion}:${sparkVersion}_0.6.0"
   testCompile "org.apache.spark:spark-hive_${scalaVersion}:${sparkVersion}"
